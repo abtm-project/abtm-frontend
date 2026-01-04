@@ -13,7 +13,7 @@ const Register = () => {
     confirmPassword: '',
     email: '',
     fullName: '',
-    role: 'Developer',
+    role: 'DEVELOPER',  // Changed to UPPERCASE
   });
   const [loading, setLoading] = useState(false);
   
@@ -49,6 +49,7 @@ const Register = () => {
       toast.success('Registration successful!');
       navigate('/dashboard');
     } catch (error) {
+      toast.error(error.response?.data?.message || 'Registration failed');
       setLoading(false);
     }
   };
@@ -114,10 +115,10 @@ const Register = () => {
               className="input-field"
               required
             >
-              <option value="Developer">Developer</option>
-              <option value="QA_Engineer">QA Engineer</option>
-              <option value="Product_Owner">Product Owner</option>
-              <option value="Business_Analyst">Business Analyst</option>
+              <option value="DEVELOPER">Developer</option>
+              <option value="QA_ENGINEER">QA Engineer</option>
+              <option value="PRODUCT_OWNER">Product Owner</option>
+              <option value="BUSINESS_ANALYST">Business Analyst</option>
             </select>
           </div>
 
@@ -132,6 +133,7 @@ const Register = () => {
               onChange={handleChange}
               className="input-field"
               required
+              minLength={6}
             />
           </div>
 

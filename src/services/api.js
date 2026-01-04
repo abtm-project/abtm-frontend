@@ -1,68 +1,45 @@
 // src/services/api.js
-// Base API configuration and axios instance
-
+// Axios instance configuration
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-// Base URL for your Spring Boot backend
-const API_BASE_URL = 'http://localhost:8080/api';
-
-// Create axios instance with default config
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: 'http://localhost:8080/api',
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds
 });
 
-// Request interceptor - Add auth token to requests
-api.interceptors.request.use(
-  (config) => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user.token) {
-      config.headers.Authorization = `Bearer ${user.token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor - Handle errors globally
+// Response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   (error) => {
     if (error.response) {
       // Server responded with error
-      const message = error.response.data?.error || error.response.data?.message || 'An error occurred';
-      
-      if (error.response.status === 401) {
-        // Unauthorized - clear storage and redirect to login
-        localStorage.removeItem('user');
-        window.location.href = '/login';
-        toast.error('Session expired. Please login again.');
-      } else if (error.response.status === 403) {
-        toast.error('Access denied');
-      } else if (error.response.status === 404) {
-        toast.error('Resource not found');
-      } else if (error.response.status >= 500) {
-        toast.error('Server error. Please try again later.');
-      } else {
+      const message = error.response.data?.message || error.response.data || 'An error occurred';
+      console.error('API Error:', message);
+      if (toast && toast.error) {
         toast.error(message);
       }
     } else if (error.request) {
       // Request made but no response
-      toast.error('Cannot connect to server. Please check if backend is running.');
+      const message = 'Cannot connect to server. Please check if backend is running.';
+      console.error('Network Error:', message);
+      if (toast && toast.error) {
+        toast.error(message);
+      }
     } else {
       // Something else happened
-      toast.error('An unexpected error occurred');
+      const message = 'An unexpected error occurred';
+      console.error('Error:', error.message);
+      if (toast && toast.error) {
+        toast.error(message);
+      }
     }
-    
     return Promise.reject(error);
   }
 );
 
 export default api;
-export { API_BASE_URL };
