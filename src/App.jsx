@@ -14,7 +14,6 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Modules from './pages/Modules';
 import ModuleList from './pages/ModuleList';
 import ModuleDetail from './pages/ModuleDetail';
 import Exercise from './pages/Exercise';
@@ -88,17 +87,19 @@ function App() {
         </div>
         
         {/* Toast notifications */}
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+		<ToastContainer
+			position="top-right"
+			autoClose={3000}
+			hideProgressBar={false}
+			newestOnTop
+			closeOnClick
+			rtl={false}
+			pauseOnFocusLoss
+			draggable
+			pauseOnHover
+			theme="light"
+		/>
+		
       </Router>
     </AuthProvider>
   );

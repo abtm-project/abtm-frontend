@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ProgressChart from '../components/ProgressChart';
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -95,6 +96,11 @@ function Dashboard() {
           </Link>
         </div>
       </div>
+	  
+	  {/* Progress Chart */}
+		{stats && (
+		<ProgressChart stats={stats} />
+		)}
 
       {/* Performance Breakdown */}
       {stats && stats.totalScenarios > 0 && (

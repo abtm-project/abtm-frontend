@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import exerciseService from '../services/exerciseService';
+import ScoreRadarChart from './ScoreRadarChart';
+import { toast } from 'react-toastify';
 
 function ScenarioSubmissionForm({ exerciseId, onSubmitSuccess }) {
   const [content, setContent] = useState('');
@@ -15,6 +17,7 @@ function ScenarioSubmissionForm({ exerciseId, onSubmitSuccess }) {
     try {
       const result = await exerciseService.analyzeScenario(content);
       setAnalysis(result);
+	  toast.info('📊 Analysis complete! Review your scores below.');
     } catch (error) {
       console.error('Preview error:', error);
     } finally {
@@ -35,10 +38,10 @@ function ScenarioSubmissionForm({ exerciseId, onSubmitSuccess }) {
       );
       setAnalysis(result);
       if (onSubmitSuccess) onSubmitSuccess(result);
-      alert('Scenario submitted successfully!');
+      toast.success('✅ Scenario submitted successfully!');
     } catch (error) {
       console.error('Submit error:', error);
-      alert('Failed to submit scenario');
+      toast.error('❌ Failed to submit scenario. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -113,15 +116,18 @@ function ScenarioSubmissionForm({ exerciseId, onSubmitSuccess }) {
             )}
           </div>
 
-          {/* 6 Dimension Scores */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <ScoreCard title="Clarity & Readability" score={analysis.clarityScore} />
-            <ScoreCard title="Business Value" score={analysis.businessValueScore} />
-            <ScoreCard title="Gherkin Correctness" score={analysis.gherkinScore} />
-            <ScoreCard title="Testability" score={analysis.testabilityScore} />
-            <ScoreCard title="Specificity" score={analysis.specificityScore} />
-            <ScoreCard title="Duplication Avoidance" score={analysis.duplicationScore} />
-          </div>
+          {/* 6 Dimension Scores with Radar Chart */}
+		<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+			<div className="grid grid-cols-2 gap-4">
+				<ScoreCard title="Clarity" score={analysis.clarityScore} />
+				<ScoreCard title="Business Value" score={analysis.businessValueScore} />
+				<ScoreCard title="Gherkin" score={analysis.gherkinScore} />
+				<ScoreCard title="Testability" score={analysis.testabilityScore} />
+				<ScoreCard title="Specificity" score={analysis.specificityScore} />
+				<ScoreCard title="Duplication" score={analysis.duplicationScore} />
+			</div>
+			<ScoreRadarChart scenario={analysis} />
+		</div>
 
           {/* Feedback */}
           {analysis.feedback && (
