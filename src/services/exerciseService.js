@@ -1,5 +1,5 @@
 // src/services/exerciseService.js
-// Exercise API calls - FIXED VERSION
+// Exercise API calls - UPDATED FOR PHASE 3: Time Tracking
 import api from './api';
 
 const exerciseService = {
@@ -25,12 +25,14 @@ const exerciseService = {
     return exercise;
   },
 
-  // Submit exercise solution (scenario) - SAVES to database
-  submitSolution: async (exerciseId, userId, scenarioContent) => {
+  // ✅ PHASE 3: Submit exercise solution (scenario) WITH TIME TRACKING
+  // UPDATED: Now accepts timeSpentMinutes parameter
+  submitSolution: async (exerciseId, userId, scenarioContent, timeSpentMinutes = 0) => {
     const response = await api.post('/scenarios/submit', {
       userId,
       exerciseId,
-      content: scenarioContent, // Backend expects 'content', not 'scenarioContent'
+      content: scenarioContent,
+      timeSpentMinutes: timeSpentMinutes,  // ← Time data sent to backend
     });
     return response.data;
   },

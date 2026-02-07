@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
 import { PrivateRoute, Footer } from './components/CommonComponents';
 import Navbar from './components/Navbar';
+import Quiz from './components/Quiz';
 
 // Pages
 import Login from './pages/Login';
@@ -76,6 +77,12 @@ function App() {
                   <Profile />
                 </PrivateRoute>
               } />
+			  
+			  <Route path="/quiz/:quizId" element={
+				<PrivateRoute>
+					<Quiz />
+				</PrivateRoute>
+			  } />
               
               {/* Default redirect */}
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
