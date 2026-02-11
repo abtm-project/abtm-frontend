@@ -45,12 +45,11 @@ export const Footer = () => {
               © 2026 ABTM - Adaptive BDD Training Model
             </p>
             <p className="text-xs text-gray-400 mt-1">
-              Research Project | University Implementation
+              Research Project | Abdullah Alshammari | Yanbu Industrial College
             </p>
           </div>
           <div className="text-sm text-gray-400">
-            <p>Backend: Spring Boot + PostgreSQL</p>
-            <p>Frontend: React + Tailwind CSS</p>
+            <p>ABTM</p>
           </div>
         </div>
       </div>
