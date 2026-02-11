@@ -16,6 +16,11 @@ const moduleService = {
     return response.data;
   },
 
+  getModuleQuizzes: async (moduleId) => {
+    const response = await api.get(`/modules/${moduleId}/quizzes`);
+    return response.data;
+  },
+
   // Get exercises for a module
   getModuleExercises: async (moduleId) => {
     const response = await api.get(`/modules/${moduleId}/exercises`);
